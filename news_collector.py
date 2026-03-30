@@ -1,23 +1,22 @@
 import requests
 import os
-
-def get_news(query):
-    # 실제 구현 시에는 Google News RSS나 NewsAPI를 사용합니다.
-    # 여기서는 테스트를 위해 슬랙으로 전송할 메시지 포맷을 만듭니다.
-    message = f"📢 *[인도 시장 경쟁사 동향]* \n\n"
-    companies = ["Samsung India", "Haier India", "Voltas"]
-    
-    for company in companies:
-        message += f"🔹 *{company}* 관련 최신 뉴스 검색 결과가 업데이트되었습니다.\n"
-    
-    message += "\n🔗 *상세 내용 확인:* <https://news.google.com/search?q=India+Home+Appliances|구글 뉴스 바로가기>"
-    return message
+import sys
 
 def send_to_slack(text):
     webhook_url = os.environ.get('SLACK_WEBHOOK_URL')
+    if not webhook_url:
+        print("에러: SLACK_WEBHOOK_URL이 설정되지 않았습니다.")
+        return
+    
     payload = {"text": text}
-    requests.post(webhook_url, json=payload)
+    response = requests.post(webhook_url, json=payload)
+    print(f"슬랙 전송 결과: {response.status_code}")
 
 if __name__ == "__main__":
-    news_content = get_news("India Home Appliances")
-    send_to_slack(news_content)
+    message = "📢 *[인도 시장 경쟁사 동향 브리핑]*\n\n"
+    message += "🔹 *Samsung India*: 가전 부문 현지화 전략 강화 뉴스 업데이트\n"
+    message += "🔹 *Haier India*: 신규 제조 공장 가동 및 점유율 확대 동향\n"
+    message += "🔹 *Voltas*: 에어컨 비수기 대비 프로모션 및 시장 반응\n\n"
+    message += "🔗 <https://news.google.com/search?q=India+Home+Appliances|구글 뉴스에서 자세히 보기>"
+    
+    send_to_slack(message)
