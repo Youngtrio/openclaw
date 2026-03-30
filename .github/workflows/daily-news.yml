@@ -5,17 +5,20 @@ on:
     - cron: '30 2 * * *' # 인도 시간 오전 8시
   workflow_dispatch:
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true # 이 줄이 잔소리를 멈추게 합니다!
+
 jobs:
   collect-news:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4 # v3에서 v4로 업데이트
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v5 # v4에서 v5로 업데이트
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.11' # 더 안정적인 파이썬 버전 사용
+          python-version: '3.11'
 
       - name: Install dependencies
         run: pip install requests
