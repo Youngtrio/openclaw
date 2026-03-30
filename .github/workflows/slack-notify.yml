@@ -1,0 +1,16 @@
+name: Slack Notification
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send notification to Slack
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+          --data '{"text": "🚀 OpenClaw: GitHub Actions 워크플로가 성공적으로 실행되었습니다!"}' \
+          ${{ secrets.SLACK_WEBHOOK_URL }}

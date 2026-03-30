@@ -1,0 +1,10 @@
+[[mcp_servers]]
+name = "google-workspace"
+command = "npx"
+args = [
+  "-y",
+  "@modelcontextprotocol/server-google-drive",
+  "--credentials", "/Users/younghoo/openclaw/credentials.json",
+  "--token", "/Users/younghoo/openclaw/token.json"
+]
+

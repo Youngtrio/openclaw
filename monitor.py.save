@@ -1,0 +1,7 @@
+import requests from bs4 import BeautifulSoup url = "https://www.amazon.in/dp/PRODUCT_ID" headers = {"User-Agent": "Mozilla/5.0"} res = requests.get(url, headers=headers) soup = BeautifulSoup(res.text, 
+"html.parser") price = soup.select_one(".a-price-whole") if price:
+    print(price.text) else:
+    print("가격 못 찾음") 
+
+
+
